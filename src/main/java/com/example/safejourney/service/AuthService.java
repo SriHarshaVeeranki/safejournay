@@ -81,22 +81,43 @@ public class AuthService {
 
         String email = request.getEmail();
 
-        String otp = String.valueOf((int)(Math.random() * 900000) + 100000);
+        String otp = String.valueOf(
+                (int) (Math.random() * 900000) + 100000
+        );
 
-        otpRepository.deleteByEmail(email);
+        Optional<OtpVerification> existingOtp =
+                otpRepository.findByEmail(email);
 
-        OtpVerification otpEntity = OtpVerification.builder()
-                .email(email)
-                .otp(otp)
-                .expiryTime(LocalDateTime.now().plusMinutes(5))
-                .build();
+        OtpVerification otpEntity;
+
+        if (existingOtp.isPresent()) {
+
+            // Update existing OTP
+            otpEntity = existingOtp.get();
+
+            otpEntity.setOtp(otp);
+
+            otpEntity.setExpiryTime(
+                    LocalDateTime.now().plusMinutes(5)
+            );
+
+        } else {
+
+            // Create new OTP
+            otpEntity = OtpVerification.builder()
+                    .email(email)
+                    .otp(otp)
+                    .expiryTime(LocalDateTime.now().plusMinutes(5))
+                    .build();
+        }
 
         otpRepository.save(otpEntity);
 
-        // 🔥 SEND EMAIL HERE
+        // Send OTP through email
         emailService.sendOtpEmail(email, otp);
 
         return "OTP sent successfully";
+    
     }
     public String verifyOtp(OtpVerifyRequest request) throws BadRequestException {
 

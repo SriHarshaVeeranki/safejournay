@@ -24,10 +24,15 @@ public class AuthController {
      AuthService authService;
 
     // REGISTER
+	 // REGISTER
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
-    	     System.out.println("register servlet!!!!!!!!!!");
+    public ResponseEntity<String> register(
+            @Valid @RequestBody RegisterRequest request) {
+
+        System.out.println("Register API called");
+
         String response = authService.register(request);
+
         return ResponseEntity.ok(response);
     }
 
@@ -45,10 +50,10 @@ public class AuthController {
     }
     
     
-    @PostMapping("/verify-otp")
-    public ResponseEntity<?> verifyOtp(@Valid @RequestBody OtpVerifyRequest request) {
-        return ResponseEntity.ok(authService.verifyOtp(request));
-    }
+//    @PostMapping("/verify-otp")
+//    public ResponseEntity<?> verifyOtp(@Valid @RequestBody OtpVerifyRequest request) {
+//        return ResponseEntity.ok(authService.verifyOtp(request));
+//    }
 }
 
 //@Valid:
