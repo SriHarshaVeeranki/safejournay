@@ -20,7 +20,8 @@ public class CorsConfig {
             "http://localhost:3000",
             "https://safejourney-frontend.onrender.com",
             "https://safejourney.vercel.app",
-            "https://safejourney.netlify.app"
+            "https://safejourney.netlify.app",
+            "https://safejourney-frontend.vercel.app"
         ));
         
         // If you want to allow ALL origins (for testing), use this line instead of above:
